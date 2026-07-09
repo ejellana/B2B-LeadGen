@@ -12,11 +12,14 @@ import useAnalytics from '../hooks/useAnalytics';
 import StatCard from '../components/common/StatCard';
 import ErrorMessage from '../components/common/ErrorMessage';
 
-// Core Recharts Components
+// Chart Components
 import IndustryPieChart from '../components/Charts/IndustryPieChart';
 import CityBarChart from '../components/Charts/CityBarChart';
 import SizeTierBarChart from '../components/Charts/SizeTierBarChart';
 import FundingDonutChart from '../components/Charts/FundingDonutChart';
+import HeadcountChart from '../components/Charts/HeadcountChart';
+import GrowthLineChart from '../components/Charts/GrowthLineChart';
+import IndustryCityHeatmap from '../components/Charts/IndustryCityHeatmap';
 
 const Dashboard = () => {
   const { allLeads, loading, error, refetch } = useAnalytics();
@@ -147,11 +150,70 @@ const Dashboard = () => {
       }))
       .sort((a, b) => b.value - a.value);
 
+    // 5. Headcount by industry — average headcount per industry
+    const headcountByIndustry = {};
+    const headcountCountByIndustry = {};
+    allLeads.forEach((lead) => {
+      const ind = lead.industry || 'Other';
+      const hc = Number(lead.headcount);
+      if (!isNaN(hc) && hc > 0) {
+        headcountByIndustry[ind] = (headcountByIndustry[ind] || 0) + hc;
+        headcountCountByIndustry[ind] = (headcountCountByIndustry[ind] || 0) + 1;
+      }
+    });
+    const headcountData = Object.entries(headcountByIndustry)
+      .map(([name, totalHc]) => ({
+        name,
+        avgHeadcount: Math.round(totalHc / (headcountCountByIndustry[name] || 1)),
+        total: headcountCountByIndustry[name] || 0,
+      }))
+      .filter((d) => d.avgHeadcount > 0)
+      .sort((a, b) => b.avgHeadcount - a.avgHeadcount);
+
+    // 6. Growth over time — cumulative company count by month from created_at
+    const monthCounts = {};
+    allLeads.forEach((lead) => {
+      const date = lead.created_at ? new Date(lead.created_at) : null;
+      if (!date || isNaN(date.getTime())) return;
+      const key = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
+      monthCounts[key] = (monthCounts[key] || 0) + 1;
+    });
+    const sortedMonths = Object.keys(monthCounts).sort();
+    let runningTotal = 0;
+    const growthData = sortedMonths.map((month) => {
+      runningTotal += monthCounts[month];
+      // Format as "Jun '25" style
+      const [year, mon] = month.split('-');
+      const label = new Date(Number(year), Number(mon) - 1, 1)
+        .toLocaleDateString('en-US', { month: 'short', year: '2-digit' });
+      return { month: label, cumulative: runningTotal, added: monthCounts[month] };
+    });
+
+    // 7. Industry × City heatmap — top 6 cities × all industries
+    const top6Cities = Object.entries(cityCounts)
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 6)
+      .map(([name]) => name);
+    const heatIndustries = Object.keys(industryCounts).sort();
+    const heatMatrix = {};
+    heatIndustries.forEach((ind) => { heatMatrix[ind] = {}; });
+    allLeads.forEach((lead) => {
+      const ind = lead.industry || 'Other';
+      const city = lead.city;
+      if (city && top6Cities.includes(city) && heatMatrix[ind]) {
+        heatMatrix[ind][city] = (heatMatrix[ind][city] || 0) + 1;
+      }
+    });
+    const heatmapData = { industries: heatIndustries, cities: top6Cities, matrix: heatMatrix };
+
     return {
       industryData,
       cityData,
       sizeData,
       fundingData,
+      headcountData,
+      growthData,
+      heatmapData,
     };
   }, [allLeads]);
 
@@ -177,7 +239,7 @@ const Dashboard = () => {
             <h2 className="text-xl font-bold text-slate-900 dark:text-white">Analytics Dashboard</h2>
           </div>
           <p className="text-slate-500 dark:text-slate-400 text-sm ml-[52px]">
-            Comprehensive insights and geographic distributions — <span className="text-blue-600 dark:text-blue-400 font-medium font-semibold">Phase 4B.1</span>
+            Comprehensive insights and geographic distributions — <span className="text-blue-600 dark:text-blue-400 font-medium font-semibold">Phase 4B.2</span>
           </p>
         </div>
       </div>
@@ -302,6 +364,45 @@ const Dashboard = () => {
             <div className="flex-1 flex items-center justify-center min-h-[260px]">
               <FundingDonutChart data={chartData.fundingData} loading={loading} />
             </div>
+          </div>
+
+          {/* Headcount by Industry Card */}
+          <div className="bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/80 shadow-sm dark:shadow-none rounded-2xl p-5 flex flex-col">
+            <div className="mb-4">
+              <h3 className="text-sm font-bold text-slate-800 dark:text-slate-200">
+                Avg Headcount by Industry
+              </h3>
+              <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+                Average employee count across companies in each sector
+              </p>
+            </div>
+            <HeadcountChart data={chartData.headcountData} loading={loading} />
+          </div>
+
+          {/* Companies Over Time Card */}
+          <div className="bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/80 shadow-sm dark:shadow-none rounded-2xl p-5 flex flex-col">
+            <div className="mb-4">
+              <h3 className="text-sm font-bold text-slate-800 dark:text-slate-200">
+                Pipeline Growth Over Time
+              </h3>
+              <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+                Cumulative companies added to the database each month
+              </p>
+            </div>
+            <GrowthLineChart data={chartData.growthData} loading={loading} />
+          </div>
+
+          {/* Industry × City Heatmap — spans full width */}
+          <div className="lg:col-span-2 bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/80 shadow-sm dark:shadow-none rounded-2xl p-5">
+            <div className="mb-4">
+              <h3 className="text-sm font-bold text-slate-800 dark:text-slate-200">
+                Industry × City Heatmap
+              </h3>
+              <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+                Company density across industries and top cities — darker cells indicate higher concentration
+              </p>
+            </div>
+            <IndustryCityHeatmap data={chartData.heatmapData} loading={loading} />
           </div>
         </div>
       )}
