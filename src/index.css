@@ -64,3 +64,48 @@
   from { opacity: 0; transform: translateY(12px); }
   to   { opacity: 1; transform: translateY(0); }
 }
+
+/* ============================================================
+   CUSTOM LEAFLET TOOLTIP STYLING
+   Leaflet renders tooltips outside React root — styles must be
+   global CSS, not Tailwind utilities.
+   Default = dark mode (matches app's dark-first theme).
+   ============================================================ */
+.leaflet-tooltip {
+  background-color: rgba(15, 23, 42, 0.96) !important;
+  color: #f8fafc !important;
+  border: 1px solid rgba(51, 65, 85, 0.7) !important;
+  border-radius: 12px !important;
+  padding: 10px 14px !important;
+  box-shadow: 0 12px 28px -6px rgba(0, 0, 0, 0.55), 0 4px 10px -2px rgba(0, 0, 0, 0.35) !important;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif !important;
+  font-size: 12px !important;
+  font-weight: 500 !important;
+  white-space: normal !important;
+  max-width: 240px !important;
+}
+
+/* Arrow — dark mode default */
+.leaflet-tooltip-top::before    { border-top-color:    rgba(15, 23, 42, 0.96) !important; }
+.leaflet-tooltip-bottom::before { border-bottom-color: rgba(15, 23, 42, 0.96) !important; }
+.leaflet-tooltip-left::before   { border-left-color:   rgba(15, 23, 42, 0.96) !important; }
+.leaflet-tooltip-right::before  { border-right-color:  rgba(15, 23, 42, 0.96) !important; }
+
+/* ── Light mode overrides (html without .dark class) ── */
+html:not(.dark) .leaflet-tooltip {
+  background-color: rgba(255, 255, 255, 0.97) !important;
+  color: #0f172a !important;
+  border: 1px solid rgba(203, 213, 225, 0.9) !important;
+  box-shadow: 0 8px 20px -4px rgba(15, 23, 42, 0.12), 0 3px 8px -2px rgba(15, 23, 42, 0.08) !important;
+}
+html:not(.dark) .leaflet-tooltip-top::before    { border-top-color:    rgba(255, 255, 255, 0.97) !important; }
+html:not(.dark) .leaflet-tooltip-bottom::before { border-bottom-color: rgba(255, 255, 255, 0.97) !important; }
+html:not(.dark) .leaflet-tooltip-left::before   { border-left-color:   rgba(255, 255, 255, 0.97) !important; }
+html:not(.dark) .leaflet-tooltip-right::before  { border-right-color:  rgba(255, 255, 255, 0.97) !important; }
+
+/* Leaflet map rounded corners (applied via MapContainer style) */
+.leaflet-container {
+  border-radius: inherit;
+}
+
+

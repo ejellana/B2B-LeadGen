@@ -5,8 +5,6 @@ import MarkerClusterGroup from 'react-leaflet-cluster';
 import L from 'leaflet';
 import useAnalytics from '../hooks/useAnalytics';
 import CompanyDrawer from '../components/Company/CompanyDrawer';
-import IndustryBadge from '../components/common/IndustryBadge';
-import SizeTierBadge from '../components/common/SizeTierBadge';
 import { CITY_COORDINATES } from '../utils/cityCoordinates';
 import { getIndustryColor } from '../utils/industryColors';
 
@@ -54,6 +52,7 @@ const createClusterIcon = (cluster) => {
         display:flex;align-items:center;justify-content:center;
         color:white;font-weight:700;font-size:${count < 10 ? 13 : 11}px;
         box-shadow:0 4px 12px rgba(99,102,241,0.45);
+        font-family:Inter,system-ui,-apple-system,sans-serif;
       ">${count}</div>
     `,
     className: '',
@@ -63,7 +62,7 @@ const createClusterIcon = (cluster) => {
 };
 
 // Philippines center coordinates
-const PH_CENTER = [12.8797, 121.7740];
+const PH_CENTER = [12.8797, 121.774];
 const PH_ZOOM = 6;
 
 const CompanyMap = () => {
@@ -122,14 +121,16 @@ const CompanyMap = () => {
         )}
       </div>
 
-      {/* Map container */}
+      {/* ── Map container ─────────────────────────────────────────────────── */}
+      {/*  NOTE: overflow-hidden clips Leaflet tooltips/popups, so we use    */}
+      {/*  clip-path trick via border-radius on the inner map element instead */}
       <div
-        className="relative bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 shadow-sm dark:shadow-none rounded-2xl overflow-hidden"
-        style={{ height: 'calc(100vh - 230px)', minHeight: '480px' }}
+        className="relative bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 shadow-sm dark:shadow-none rounded-2xl"
+        style={{ height: 'calc(100vh - 290px)', minHeight: '400px', isolation: 'isolate' }}
       >
         {/* Loading state */}
         {loading && (
-          <div className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-4 bg-white/80 dark:bg-slate-950/80 backdrop-blur-sm">
+          <div className="absolute inset-0 z-[500] flex flex-col items-center justify-center gap-4 bg-white/80 dark:bg-slate-950/80 backdrop-blur-sm rounded-2xl">
             <div className="w-10 h-10 rounded-full border-4 border-teal-500/30 border-t-teal-500 animate-spin" />
             <p className="text-slate-600 dark:text-slate-400 text-sm font-semibold">Loading company data…</p>
           </div>
@@ -137,7 +138,7 @@ const CompanyMap = () => {
 
         {/* Error state */}
         {error && (
-          <div className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-4 p-8 text-center bg-white dark:bg-slate-950">
+          <div className="absolute inset-0 z-[500] flex flex-col items-center justify-center gap-4 p-8 text-center bg-white dark:bg-slate-950 rounded-2xl">
             <div className="w-12 h-12 rounded-xl bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 flex items-center justify-center">
               <AlertCircle size={22} className="text-red-500" />
             </div>
@@ -156,7 +157,7 @@ const CompanyMap = () => {
 
         {/* Empty state */}
         {!loading && !error && mappableLeads.length === 0 && (
-          <div className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-4 p-8 text-center bg-white dark:bg-slate-950">
+          <div className="absolute inset-0 z-[500] flex flex-col items-center justify-center gap-4 p-8 text-center bg-white dark:bg-slate-950 rounded-2xl">
             <div className="w-12 h-12 rounded-xl bg-teal-50 dark:bg-teal-900/20 border border-teal-200 dark:border-teal-800 flex items-center justify-center">
               <MapPin size={22} className="text-teal-500" />
             </div>
@@ -174,7 +175,7 @@ const CompanyMap = () => {
           <MapContainer
             center={PH_CENTER}
             zoom={PH_ZOOM}
-            style={{ height: '100%', width: '100%' }}
+            style={{ height: '100%', width: '100%', borderRadius: '1rem' }}
             zoomControl={false}
             attributionControl={false}
           >
@@ -202,7 +203,18 @@ const CompanyMap = () => {
                   icon={createMarkerIcon(lead.industry)}
                   eventHandlers={{ click: () => setSelectedCompany(lead) }}
                 >
-                  <Tooltip direction="top" offset={[0, -4]} opacity={1} permanent={false}>
+                  {/*
+                    IMPORTANT: All styles in <Tooltip> children must be INLINE.
+                    Leaflet renders tooltip DOM nodes outside the React root,
+                    so Tailwind utility classes are not available there.
+                  */}
+                  <Tooltip
+                    direction="top"
+                    offset={[0, -6]}
+                    opacity={1}
+                    permanent={false}
+                    sticky={false}
+                  >
                     <MarkerTooltip lead={lead} />
                   </Tooltip>
                 </Marker>
@@ -212,7 +224,7 @@ const CompanyMap = () => {
         )}
 
         {/* Attribution */}
-        <div className="absolute bottom-2 left-2 z-[1000] text-[10px] text-slate-400 dark:text-slate-600 bg-white/80 dark:bg-slate-950/80 backdrop-blur-sm px-2 py-1 rounded select-none">
+        <div className="absolute bottom-2 left-2 z-[1000] text-[10px] text-slate-400 dark:text-slate-600 bg-white/80 dark:bg-slate-950/80 backdrop-blur-sm px-2 py-1 rounded select-none pointer-events-none">
           © OpenStreetMap contributors
         </div>
       </div>
@@ -228,26 +240,73 @@ const CompanyMap = () => {
 
 // ── Sub-components ─────────────────────────────────────────────────────────
 
-const MarkerTooltip = ({ lead }) => (
-  <div className="min-w-[160px] max-w-[220px]">
-    <p className="font-bold text-slate-900 text-[13px] leading-snug mb-2">{lead.company_name}</p>
-    <div className="space-y-1.5">
-      <div className="flex items-center gap-1.5">
-        <IndustryBadge industry={lead.industry} />
+/**
+ * MarkerTooltip — rendered inside a Leaflet tooltip DOM node which lives
+ * OUTSIDE the React root. Tailwind classes do NOT work here.
+ * All styles must be inline.
+ */
+const MarkerTooltip = ({ lead }) => {
+  const industryColor = getIndustryColor(lead.industry);
+  const industry = lead.industry || 'Other';
+
+  return (
+    <div style={{ minWidth: 160, maxWidth: 220, fontFamily: 'Inter, system-ui, -apple-system, sans-serif' }}>
+      {/* Company name */}
+      <p style={{ fontWeight: 700, fontSize: 13, lineHeight: 1.3, marginBottom: 8, color: 'inherit' }}>
+        {lead.company_name}
+      </p>
+
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
+        {/* Industry badge */}
+        <span style={{
+          display: 'inline-flex',
+          alignItems: 'center',
+          gap: 5,
+          padding: '2px 8px',
+          borderRadius: 9999,
+          fontSize: 11,
+          fontWeight: 600,
+          backgroundColor: `${industryColor}20`,
+          color: industryColor,
+          border: `1px solid ${industryColor}40`,
+          width: 'fit-content',
+        }}>
+          <span style={{ width: 6, height: 6, borderRadius: '50%', backgroundColor: industryColor, display: 'inline-block', flexShrink: 0 }} />
+          {industry}
+        </span>
+
+        {/* Size tier */}
+        {lead.size_tier && (
+          <span style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            padding: '2px 8px',
+            borderRadius: 9999,
+            fontSize: 11,
+            fontWeight: 600,
+            backgroundColor: 'rgba(148,163,184,0.15)',
+            color: 'rgba(148,163,184,1)',
+            border: '1px solid rgba(148,163,184,0.25)',
+            width: 'fit-content',
+          }}>
+            {lead.size_tier}
+          </span>
+        )}
+
+        {/* City */}
+        {lead.city && (
+          <span style={{ fontSize: 11, color: 'rgba(148,163,184,0.8)', display: 'flex', alignItems: 'center', gap: 3 }}>
+            📍 {lead.city}
+          </span>
+        )}
       </div>
-      <div className="flex items-center gap-1.5">
-        <SizeTierBadge tier={lead.size_tier} />
-      </div>
-      {lead.city && (
-        <div className="flex items-center gap-1 text-slate-500 text-[11px] mt-1">
-          <MapPin size={10} />
-          {lead.city}
-        </div>
-      )}
+
+      <p style={{ fontSize: 10, color: 'rgba(148,163,184,0.7)', marginTop: 8, fontWeight: 500 }}>
+        Click to view profile →
+      </p>
     </div>
-    <p className="text-[10px] text-slate-400 mt-2 font-medium">Click to view profile →</p>
-  </div>
-);
+  );
+};
 
 const StatPill = ({ icon, label, color }) => {
   const colors = {
