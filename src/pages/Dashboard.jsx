@@ -307,7 +307,11 @@ const Dashboard = () => {
       ) : (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Industry Breakdown Card */}
-          <div className="bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/80 shadow-sm dark:shadow-none rounded-2xl p-5 flex flex-col justify-between">
+          <div
+            role="region"
+            aria-label="Industry Breakdown Chart"
+            className="bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/80 shadow-sm dark:shadow-none hover:shadow-md hover:border-slate-350 dark:hover:border-slate-700/85 transition-all duration-300 rounded-2xl p-6 flex flex-col justify-between h-[390px]"
+          >
             <div className="mb-4">
               <h3 className="text-sm font-bold text-slate-800 dark:text-slate-200">
                 Industry Breakdown
@@ -316,13 +320,17 @@ const Dashboard = () => {
                 Lead counts and sector shares across major categories
               </p>
             </div>
-            <div className="flex-1 flex items-center justify-center min-h-[260px]">
+            <div className="flex-1 flex items-center justify-center min-h-0 w-full">
               <IndustryPieChart data={chartData.industryData} loading={loading} />
             </div>
           </div>
 
           {/* Top 10 Cities Card */}
-          <div className="bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/80 shadow-sm dark:shadow-none rounded-2xl p-5 flex flex-col justify-between">
+          <div
+            role="region"
+            aria-label="Top 10 Cities Chart"
+            className="bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/80 shadow-sm dark:shadow-none hover:shadow-md hover:border-slate-350 dark:hover:border-slate-700/85 transition-all duration-300 rounded-2xl p-6 flex flex-col justify-between h-[390px]"
+          >
             <div className="mb-4">
               <h3 className="text-sm font-bold text-slate-800 dark:text-slate-200">
                 Top 10 Cities
@@ -331,13 +339,17 @@ const Dashboard = () => {
                 Locations with the highest concentration of registered companies
               </p>
             </div>
-            <div className="flex-1 flex items-center justify-center min-h-[260px]">
+            <div className="flex-1 flex items-center justify-center min-h-0 w-full">
               <CityBarChart data={chartData.cityData} loading={loading} />
             </div>
           </div>
 
           {/* Size Tier Distribution Card */}
-          <div className="bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/80 shadow-sm dark:shadow-none rounded-2xl p-5 flex flex-col justify-between">
+          <div
+            role="region"
+            aria-label="Size Tier Distribution Chart"
+            className="bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/80 shadow-sm dark:shadow-none hover:shadow-md hover:border-slate-350 dark:hover:border-slate-700/85 transition-all duration-300 rounded-2xl p-6 flex flex-col justify-between h-[390px]"
+          >
             <div className="mb-4">
               <h3 className="text-sm font-bold text-slate-800 dark:text-slate-200">
                 Size Tier Distribution
@@ -346,13 +358,17 @@ const Dashboard = () => {
                 Breakdown of companies categorized by employee headcount tiers
               </p>
             </div>
-            <div className="flex-1 flex items-center justify-center min-h-[260px]">
+            <div className="flex-1 flex items-center justify-center min-h-0 w-full">
               <SizeTierBarChart data={chartData.sizeData} loading={loading} />
             </div>
           </div>
 
           {/* Funding Stage Distribution Card */}
-          <div className="bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/80 shadow-sm dark:shadow-none rounded-2xl p-5 flex flex-col justify-between">
+          <div
+            role="region"
+            aria-label="Funding Stage Distribution Chart"
+            className="bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/80 shadow-sm dark:shadow-none hover:shadow-md hover:border-slate-350 dark:hover:border-slate-700/85 transition-all duration-300 rounded-2xl p-6 flex flex-col justify-between h-[390px]"
+          >
             <div className="mb-4">
               <h3 className="text-sm font-bold text-slate-800 dark:text-slate-200">
                 Funding Stage Distribution
@@ -361,13 +377,17 @@ const Dashboard = () => {
                 Share of companies in each funding round or operating stage
               </p>
             </div>
-            <div className="flex-1 flex items-center justify-center min-h-[260px]">
+            <div className="flex-1 flex items-center justify-center min-h-0 w-full">
               <FundingDonutChart data={chartData.fundingData} loading={loading} />
             </div>
           </div>
 
           {/* Headcount by Industry Card */}
-          <div className="bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/80 shadow-sm dark:shadow-none rounded-2xl p-5 flex flex-col">
+          <div
+            role="region"
+            aria-label="Average Headcount by Industry Chart"
+            className="bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/80 shadow-sm dark:shadow-none hover:shadow-md hover:border-slate-350 dark:hover:border-slate-700/85 transition-all duration-300 rounded-2xl p-6 flex flex-col justify-between h-[390px]"
+          >
             <div className="mb-4">
               <h3 className="text-sm font-bold text-slate-800 dark:text-slate-200">
                 Avg Headcount by Industry
@@ -376,11 +396,17 @@ const Dashboard = () => {
                 Average employee count across companies in each sector
               </p>
             </div>
-            <HeadcountChart data={chartData.headcountData} loading={loading} />
+            <div className="flex-1 flex items-center justify-center min-h-0 w-full">
+              <HeadcountChart data={chartData.headcountData} loading={loading} />
+            </div>
           </div>
 
           {/* Companies Over Time Card */}
-          <div className="bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/80 shadow-sm dark:shadow-none rounded-2xl p-5 flex flex-col">
+          <div
+            role="region"
+            aria-label="Pipeline Growth Over Time Chart"
+            className="bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/80 shadow-sm dark:shadow-none hover:shadow-md hover:border-slate-350 dark:hover:border-slate-700/85 transition-all duration-300 rounded-2xl p-6 flex flex-col justify-between h-[390px]"
+          >
             <div className="mb-4">
               <h3 className="text-sm font-bold text-slate-800 dark:text-slate-200">
                 Pipeline Growth Over Time
@@ -389,11 +415,17 @@ const Dashboard = () => {
                 Cumulative companies added to the database each month
               </p>
             </div>
-            <GrowthLineChart data={chartData.growthData} loading={loading} />
+            <div className="flex-1 flex items-center justify-center min-h-0 w-full">
+              <GrowthLineChart data={chartData.growthData} loading={loading} />
+            </div>
           </div>
 
           {/* Industry × City Heatmap — spans full width */}
-          <div className="lg:col-span-2 bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/80 shadow-sm dark:shadow-none rounded-2xl p-5">
+          <div
+            role="region"
+            aria-label="Industry by City Heatmap"
+            className="lg:col-span-2 bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/80 shadow-sm dark:shadow-none hover:shadow-md hover:border-slate-350 dark:hover:border-slate-700/85 transition-all duration-300 rounded-2xl p-6 flex flex-col"
+          >
             <div className="mb-4">
               <h3 className="text-sm font-bold text-slate-800 dark:text-slate-200">
                 Industry × City Heatmap
@@ -402,7 +434,9 @@ const Dashboard = () => {
                 Company density across industries and top cities — darker cells indicate higher concentration
               </p>
             </div>
-            <IndustryCityHeatmap data={chartData.heatmapData} loading={loading} />
+            <div className="w-full overflow-hidden">
+              <IndustryCityHeatmap data={chartData.heatmapData} loading={loading} />
+            </div>
           </div>
         </div>
       )}

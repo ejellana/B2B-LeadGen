@@ -1,12 +1,9 @@
 import {
-  LineChart,
-  Line,
   XAxis,
   YAxis,
   CartesianGrid,
   Tooltip,
   ResponsiveContainer,
-  ReferenceLine,
   Area,
   AreaChart,
 } from 'recharts';
@@ -47,7 +44,7 @@ const CustomTooltip = ({ active, payload, label }) => {
 const GrowthLineChart = ({ data = [], loading = false }) => {
   if (loading) {
     return (
-      <div className="h-56 flex items-end gap-1 px-4 pb-2">
+      <div className="h-64 flex items-end gap-1 px-4 pb-2">
         {Array.from({ length: 12 }).map((_, i) => (
           <div
             key={i}
@@ -61,14 +58,14 @@ const GrowthLineChart = ({ data = [], loading = false }) => {
 
   if (!data || data.length === 0) {
     return (
-      <div className="h-56 flex items-center justify-center text-slate-400 dark:text-slate-600 text-sm font-semibold">
+      <div className="h-64 flex items-center justify-center text-slate-400 dark:text-slate-600 text-sm font-semibold">
         No timeline data available
       </div>
     );
   }
 
   return (
-    <div className="h-56 w-full">
+    <div className="h-64 w-full">
       <ResponsiveContainer width="100%" height="100%">
         <AreaChart data={data} margin={{ top: 8, right: 8, left: -16, bottom: 4 }}>
           <defs>

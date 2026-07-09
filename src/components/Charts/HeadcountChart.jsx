@@ -5,7 +5,6 @@ import {
   YAxis,
   CartesianGrid,
   Tooltip,
-  Legend,
   ResponsiveContainer,
   Cell,
 } from 'recharts';
@@ -47,7 +46,7 @@ const CustomTooltip = ({ active, payload, label }) => {
 const HeadcountChart = ({ data = [], loading = false }) => {
   if (loading) {
     return (
-      <div className="h-72 flex flex-col justify-end gap-2 px-4 pb-2">
+      <div className="h-64 flex flex-col justify-end gap-2 px-4 pb-2">
         {Array.from({ length: 6 }).map((_, i) => (
           <div key={i} className="flex items-center gap-3">
             <div className="h-3 w-20 bg-slate-200 dark:bg-slate-800 rounded animate-pulse shrink-0" />
@@ -63,7 +62,7 @@ const HeadcountChart = ({ data = [], loading = false }) => {
 
   if (!data || data.length === 0) {
     return (
-      <div className="h-72 flex items-center justify-center text-slate-400 dark:text-slate-600 text-sm font-semibold">
+      <div className="h-64 flex items-center justify-center text-slate-400 dark:text-slate-600 text-sm font-semibold">
         No headcount data available
       </div>
     );
@@ -73,7 +72,7 @@ const HeadcountChart = ({ data = [], loading = false }) => {
   const sorted = [...data].sort((a, b) => b.avgHeadcount - a.avgHeadcount);
 
   return (
-    <div className="h-72 w-full">
+    <div className="h-64 w-full">
       <ResponsiveContainer width="100%" height="100%">
         <BarChart
           data={sorted}
