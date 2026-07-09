@@ -56,7 +56,7 @@ const LeadTable = ({ data = [], loading = false }) => {
   // Dynamic sort indicator icon renderer
   const SortIcon = ({ field }) => {
     if (sortField !== field) {
-      return <ArrowUpDown size={12} className="text-slate-400 dark:text-slate-650 ml-1.5 shrink-0" />;
+      return <ArrowUpDown size={12} className="text-slate-400 dark:text-slate-500 ml-1.5 shrink-0" />;
     }
     return sortOrder === 'asc' ? (
       <ArrowUp size={12} className="text-blue-600 dark:text-blue-400 ml-1.5 shrink-0" />
@@ -87,13 +87,13 @@ const LeadTable = ({ data = [], loading = false }) => {
           ))}
         </div>
         {/* Row skeletons */}
-        <div className="divide-y divide-slate-100 dark:divide-slate-850">
+        <div className="divide-y divide-slate-100 dark:divide-slate-800/60">
           {Array.from({ length: 8 }).map((_, i) => (
             <div key={i} className="px-6 py-4 flex gap-4">
               {columnsConfig.map((col) => (
                 <div
                   key={col.key}
-                  className="flex-1 h-4 bg-slate-100 dark:bg-slate-850 rounded animate-pulse"
+                  className="flex-1 h-4 bg-slate-100 dark:bg-slate-800/60 rounded animate-pulse"
                   style={{ width: `${60 + Math.random() * 30}%` }}
                 />
               ))}
@@ -118,7 +118,7 @@ const LeadTable = ({ data = [], loading = false }) => {
   return (
     <div className="border border-slate-200 dark:border-slate-800/80 rounded-2xl overflow-hidden bg-white dark:bg-slate-900/60 shadow-sm dark:shadow-none">
       {/* Scroll container */}
-      <div className="overflow-x-auto w-full scrollbar-thin scrollbar-thumb-slate-250 dark:scrollbar-thumb-slate-800">
+      <div className="overflow-x-auto w-full scrollbar-thin scrollbar-thumb-slate-200 dark:scrollbar-thumb-slate-800">
         <table className="w-full text-left border-collapse min-w-[1000px]">
           {/* Sticky Table Header */}
           <thead className="bg-slate-50/80 dark:bg-slate-900/80 backdrop-blur-sm border-b border-slate-200 dark:border-slate-800 sticky top-0 z-10 select-none">
@@ -128,7 +128,7 @@ const LeadTable = ({ data = [], loading = false }) => {
                   key={col.key}
                   onClick={() => col.sortable && handleSort(col.key)}
                   className={`py-3.5 px-6 text-slate-500 dark:text-slate-400 text-[10px] font-extrabold uppercase tracking-wider whitespace-nowrap 
-                    ${col.sortable ? 'cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-850/80 transition-colors' : ''}`}
+                    ${col.sortable ? 'cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-800/80 transition-colors' : ''}`}
                 >
                   <div className="flex items-center">
                     {col.label}
@@ -140,7 +140,7 @@ const LeadTable = ({ data = [], loading = false }) => {
           </thead>
 
           {/* Table Body with alternating colors */}
-          <tbody className="divide-y divide-slate-100 dark:divide-slate-850 text-slate-700 dark:text-slate-200">
+          <tbody className="divide-y divide-slate-100 dark:divide-slate-800/65 text-slate-700 dark:text-slate-250">
             {sortedLeads.map((lead) => {
               const formattedDate = lead.last_updated
                 ? new Date(lead.last_updated).toLocaleDateString('en-US', {
@@ -153,7 +153,7 @@ const LeadTable = ({ data = [], loading = false }) => {
               return (
                 <tr
                   key={lead.id}
-                  className="hover:bg-slate-50/60 dark:hover:bg-slate-850/30 transition-all duration-150 group"
+                  className="hover:bg-slate-50/80 dark:hover:bg-slate-900/40 transition-all duration-200 ease-in-out group"
                 >
                   {/* Company Name */}
                   <td className="py-3 px-6 font-semibold text-slate-900 dark:text-white max-w-[180px] truncate">
@@ -166,7 +166,7 @@ const LeadTable = ({ data = [], loading = false }) => {
                   </td>
 
                   {/* City */}
-                  <td className="py-3 px-6 font-medium text-slate-600 dark:text-slate-300 max-w-[120px] truncate">
+                  <td className="py-3 px-6 font-medium text-slate-650 dark:text-slate-300 max-w-[120px] truncate">
                     {lead.city || '—'}
                   </td>
 
@@ -177,7 +177,7 @@ const LeadTable = ({ data = [], loading = false }) => {
 
                   {/* Funding Stage */}
                   <td className="py-3 px-6 font-medium whitespace-nowrap">
-                    <span className="inline-flex items-center px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-350 text-xs font-semibold border border-slate-200/40 dark:border-slate-700/40">
+                    <span className="inline-flex items-center px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800/70 text-slate-700 dark:text-slate-300 text-xs font-semibold border border-slate-250/20 dark:border-slate-700/40">
                       {lead.funding_stage || 'Unknown'}
                     </span>
                   </td>
@@ -206,7 +206,7 @@ const LeadTable = ({ data = [], loading = false }) => {
                     {lead.email_contact ? (
                       <a
                         href={`mailto:${lead.email_contact}`}
-                        className="inline-flex items-center gap-1 text-slate-650 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 hover:underline text-xs font-medium"
+                        className="inline-flex items-center gap-1 text-slate-650 dark:text-slate-350 hover:text-blue-600 dark:hover:text-blue-400 hover:underline text-xs font-medium"
                         onClick={(e) => e.stopPropagation()}
                       >
                         <Mail size={12} className="shrink-0 text-slate-400 dark:text-slate-500" />
@@ -218,7 +218,7 @@ const LeadTable = ({ data = [], loading = false }) => {
                   </td>
 
                   {/* Last Updated */}
-                  <td className="py-3 px-6 font-medium text-slate-550 dark:text-slate-450 whitespace-nowrap text-xs">
+                  <td className="py-3 px-6 font-medium text-slate-500 dark:text-slate-400 whitespace-nowrap text-xs">
                     <div className="flex items-center gap-1.5">
                       <Calendar size={12} className="text-slate-400 shrink-0" />
                       {formattedDate}

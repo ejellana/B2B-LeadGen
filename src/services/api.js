@@ -179,7 +179,9 @@ export const searchLeads = async (query, config = {}) => {
 };
 
 /**
- * Filter leads by one or more fields
+ * Filter leads by one or more fields.
+ * Incorporates Baserow's URL filter syntax.
+ * Uses contains instead of equal for single_select options (size_tier, funding_stage).
  * @param {Object} filters - e.g. { industry: 'BPO', city: 'Makati' }
  * @param {Object} config - Axios request config
  */
@@ -189,8 +191,8 @@ export const filterLeads = async (filters = {}, config = {}) => {
 
     if (filters.industry) params['filter__industry__equal'] = filters.industry;
     if (filters.city) params['filter__city__equal'] = filters.city;
-    if (filters.size_tier) params['filter__size_tier__equal'] = filters.size_tier;
-    if (filters.funding_stage) params['filter__funding_stage__equal'] = filters.funding_stage;
+    if (filters.size_tier) params['filter__size_tier__contains'] = filters.size_tier;
+    if (filters.funding_stage) params['filter__funding_stage__contains'] = filters.funding_stage;
     if (filters.search) params.search = filters.search;
     if (filters.page) params.page = filters.page;
     if (filters.size) params.size = filters.size;
