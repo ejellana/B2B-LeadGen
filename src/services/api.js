@@ -108,7 +108,7 @@ export const getLeads = async (params = {}, config = {}) => {
         ...config,
       }
     );
-    
+
     if (!response.data || !Array.isArray(response.data.results)) {
       throw new Error('Received invalid data from the server.');
     }

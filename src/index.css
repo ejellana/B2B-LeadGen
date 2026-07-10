@@ -10,7 +10,10 @@
    BASE STYLES
    ============================================================ */
 @layer base {
-  *, *::before, *::after {
+
+  *,
+  *::before,
+  *::after {
     box-sizing: border-box;
   }
 
@@ -23,23 +26,30 @@
 
   body {
     margin: 0;
-    background-color: #020617; /* slate-950 */
-    color: #f1f5f9;            /* slate-100 */
+    background-color: #020617;
+    /* slate-950 */
+    color: #f1f5f9;
+    /* slate-100 */
   }
 
   ::-webkit-scrollbar {
     width: 6px;
     height: 6px;
   }
+
   ::-webkit-scrollbar-track {
     background: transparent;
   }
+
   ::-webkit-scrollbar-thumb {
-    background: #334155; /* slate-700 */
+    background: #334155;
+    /* slate-700 */
     border-radius: 9999px;
   }
+
   ::-webkit-scrollbar-thumb:hover {
-    background: #475569; /* slate-600 */
+    background: #475569;
+    /* slate-600 */
   }
 }
 
@@ -50,19 +60,32 @@
   .animate-fade-in {
     animation: fadeIn 0.25s ease-out both;
   }
+
   .animate-slide-up {
     animation: slideUp 0.3s ease-out both;
   }
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to   { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes slideUp {
-  from { opacity: 0; transform: translateY(12px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* ============================================================
@@ -86,10 +109,21 @@
 }
 
 /* Arrow — dark mode default */
-.leaflet-tooltip-top::before    { border-top-color:    rgba(15, 23, 42, 0.96) !important; }
-.leaflet-tooltip-bottom::before { border-bottom-color: rgba(15, 23, 42, 0.96) !important; }
-.leaflet-tooltip-left::before   { border-left-color:   rgba(15, 23, 42, 0.96) !important; }
-.leaflet-tooltip-right::before  { border-right-color:  rgba(15, 23, 42, 0.96) !important; }
+.leaflet-tooltip-top::before {
+  border-top-color: rgba(15, 23, 42, 0.96) !important;
+}
+
+.leaflet-tooltip-bottom::before {
+  border-bottom-color: rgba(15, 23, 42, 0.96) !important;
+}
+
+.leaflet-tooltip-left::before {
+  border-left-color: rgba(15, 23, 42, 0.96) !important;
+}
+
+.leaflet-tooltip-right::before {
+  border-right-color: rgba(15, 23, 42, 0.96) !important;
+}
 
 /* ── Light mode overrides (html without .dark class) ── */
 html:not(.dark) .leaflet-tooltip {
@@ -98,10 +132,22 @@ html:not(.dark) .leaflet-tooltip {
   border: 1px solid rgba(203, 213, 225, 0.9) !important;
   box-shadow: 0 8px 20px -4px rgba(15, 23, 42, 0.12), 0 3px 8px -2px rgba(15, 23, 42, 0.08) !important;
 }
-html:not(.dark) .leaflet-tooltip-top::before    { border-top-color:    rgba(255, 255, 255, 0.97) !important; }
-html:not(.dark) .leaflet-tooltip-bottom::before { border-bottom-color: rgba(255, 255, 255, 0.97) !important; }
-html:not(.dark) .leaflet-tooltip-left::before   { border-left-color:   rgba(255, 255, 255, 0.97) !important; }
-html:not(.dark) .leaflet-tooltip-right::before  { border-right-color:  rgba(255, 255, 255, 0.97) !important; }
+
+html:not(.dark) .leaflet-tooltip-top::before {
+  border-top-color: rgba(255, 255, 255, 0.97) !important;
+}
+
+html:not(.dark) .leaflet-tooltip-bottom::before {
+  border-bottom-color: rgba(255, 255, 255, 0.97) !important;
+}
+
+html:not(.dark) .leaflet-tooltip-left::before {
+  border-left-color: rgba(255, 255, 255, 0.97) !important;
+}
+
+html:not(.dark) .leaflet-tooltip-right::before {
+  border-right-color: rgba(255, 255, 255, 0.97) !important;
+}
 
 /* Leaflet map rounded corners (applied via MapContainer style) */
 .leaflet-container {
@@ -113,6 +159,7 @@ html:not(.dark) .leaflet-tooltip-right::before  { border-right-color:  rgba(255,
   transition: transform 0.15s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.15s ease;
   cursor: pointer;
 }
+
 .philleads-marker:hover {
   transform: scale(1.18) translateY(-3px);
   filter: brightness(1.1);
@@ -123,8 +170,9 @@ html:not(.dark) .leaflet-tooltip-right::before  { border-right-color:  rgba(255,
   border: none !important;
   border-radius: 10px !important;
   overflow: hidden;
-  box-shadow: 0 4px 14px rgba(0,0,0,0.35) !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35) !important;
 }
+
 .leaflet-control-zoom a {
   background: rgba(15, 23, 42, 0.92) !important;
   color: #94a3b8 !important;
@@ -137,9 +185,11 @@ html:not(.dark) .leaflet-tooltip-right::before  { border-right-color:  rgba(255,
   font-weight: 400 !important;
   transition: background 0.15s ease, color 0.15s ease !important;
 }
+
 .leaflet-control-zoom a:last-child {
   border-bottom: none !important;
 }
+
 .leaflet-control-zoom a:hover {
   background: rgba(30, 41, 59, 0.97) !important;
   color: #f1f5f9 !important;
@@ -151,6 +201,7 @@ html:not(.dark) .leaflet-control-zoom a {
   color: #475569 !important;
   border-bottom: 1px solid rgba(203, 213, 225, 0.7) !important;
 }
+
 html:not(.dark) .leaflet-control-zoom a:hover {
   background: #f8fafc !important;
   color: #0f172a !important;
@@ -158,10 +209,18 @@ html:not(.dark) .leaflet-control-zoom a:hover {
 
 /* ── Cluster pulse ring animation ── */
 @keyframes clusterPulse {
-  0%   { transform: scale(1);   opacity: 0.6; }
-  70%  { transform: scale(1.5); opacity: 0;   }
-  100% { transform: scale(1.5); opacity: 0;   }
+  0% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+
+  70% {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+
+  100% {
+    transform: scale(1.5);
+    opacity: 0;
+  }
 }
-
-
-

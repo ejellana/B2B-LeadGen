@@ -130,10 +130,10 @@ const LeadTable = ({ data = [], loading = false, onRowClick }) => {
             {sortedLeads.map((lead) => {
               const formattedDate = lead.last_updated
                 ? new Date(lead.last_updated).toLocaleDateString('en-US', {
-                    month: 'short',
-                    day: 'numeric',
-                    year: 'numeric',
-                  })
+                  month: 'short',
+                  day: 'numeric',
+                  year: 'numeric',
+                })
                 : '—';
 
               return (
