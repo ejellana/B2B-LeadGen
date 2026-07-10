@@ -49,39 +49,39 @@ The project was created to demonstrate how workflow automation, data enrichment,
 # Project Architecture
 
 ```text
-                                    ┌──────────────────────────────────────────────┐
-                                    │           n8n Workflow Automation            │
-                                    │                                              │
-                                    │ • Apollo.io Lead Discovery                   │
-                                    │ • Hunter.io Email Lookup                     │
-                                    │ • People Data Labs Enrichment                │
-                                    │ • Groq AI Categorization                     │
-                                    └──────────────────────────────────────────────┘
-                                                         │
-                                                         ▼
-                                    ┌──────────────────────────────────────────────┐
-                                    │              Baserow Database                │
-                                    │                                              │
-                                    │ Stores discovered companies and lead data    │
-                                    └──────────────────────────────────────────────┘
-                                                         │
-                                                         ▼
-                                    ┌──────────────────────────────────────────────┐
-                                    │                 REST API                     │
-                                    │                                              │
-                                    │ Retrieves lead data for the frontend         │
-                                    └──────────────────────────────────────────────┘
-                                                         │
-                                                         ▼
-                                    ┌──────────────────────────────────────────────┐
-                                    │      PhilLeads Dashboard (React + Vite)      │
-                                    │                                              │
-                                    │ • Dashboard Analytics                        │
-                                    │ • Lead Management                            │
-                                    │ • Company Map                                │
-                                    │ • New Leads Feed                             │
-                                    │ • Export & Reports                           │
-                                    └──────────────────────────────────────────────┘
+┌──────────────────────────────────────────────┐
+│           n8n Workflow Automation            │
+│                                              │
+│ • Apollo.io Lead Discovery                   │
+│ • Hunter.io Email Lookup                     │
+│ • People Data Labs Enrichment                │
+│ • Groq AI Categorization                     │
+└──────────────────────────────────────────────┘
+                     │
+                     ▼
+┌──────────────────────────────────────────────┐
+│              Baserow Database                │
+│                                              │
+│ Stores discovered companies and lead data    │
+└──────────────────────────────────────────────┘
+                     │
+                     ▼
+┌──────────────────────────────────────────────┐
+│                 REST API                     │
+│                                              │
+│ Retrieves lead data for the frontend         │
+└──────────────────────────────────────────────┘
+                     │
+                     ▼
+┌──────────────────────────────────────────────┐
+│      PhilLeads Dashboard (React + Vite)      │
+│                                              │
+│ • Dashboard Analytics                        │
+│ • Lead Management                            │
+│ • Company Map                                │
+│ • New Leads Feed                             │
+│ • Export & Reports                           │
+└──────────────────────────────────────────────┘
 ```
 
 ---
