@@ -6,10 +6,8 @@ import { getLeads } from '../../services/api';
 
 const PAGE_TITLES = {
   '/dashboard': { title: 'Dashboard', subtitle: 'Analytics & company intelligence' },
-  '/search': { title: 'Lead Search & Discovery', subtitle: 'Trigger N8N pipeline to find new leads' },
   '/leads': { title: 'Lead Table', subtitle: 'Browse and filter all companies' },
   '/map': { title: 'Company Map', subtitle: 'Geographic distribution of Philippine companies' },
-  '/enrichment': { title: 'Enrichment Tracker', subtitle: 'Monitor data completeness across all leads' },
   '/feed': { title: 'New Leads Feed', subtitle: 'Recently discovered companies' },
   '/export': { title: 'Export & Reports', subtitle: 'Download data as CSV or PDF' },
 };

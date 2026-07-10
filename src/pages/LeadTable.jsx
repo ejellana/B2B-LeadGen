@@ -39,7 +39,7 @@ const LeadTablePage = () => {
             <h2 className="text-xl font-bold text-slate-900 dark:text-white">Lead Table</h2>
           </div>
           <p className="text-slate-500 dark:text-slate-400 text-sm ml-[52px]">
-            Browse, sort, and filter all registered target accounts — <span className="text-emerald-600 dark:text-emerald-400 font-medium">Phase 5B</span>
+            Browse, sort, and filter all registered target accounts
           </p>
         </div>
 

@@ -7,6 +7,7 @@ import {
   Mail,
   Calendar,
   Globe,
+  TableProperties,
 } from 'lucide-react';
 import IndustryBadge from '../common/IndustryBadge';
 import SizeTierBadge from '../common/SizeTierBadge';
@@ -95,9 +96,12 @@ const LeadTable = ({ data = [], loading = false, onRowClick }) => {
 
   if (!data || data.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center py-16 px-6 bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-sm text-center">
+      <div className="flex flex-col items-center justify-center py-16 px-6 bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-sm text-center animate-slide-up">
+        <div className="w-12 h-12 rounded-xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200/60 dark:border-slate-700/60 flex items-center justify-center text-slate-400 dark:text-slate-500 mb-4 shadow-sm">
+          <TableProperties size={22} />
+        </div>
         <p className="text-slate-900 dark:text-white font-bold text-base mb-1">No Leads Found</p>
-        <p className="text-slate-500 dark:text-slate-400 text-sm max-w-xs">
+        <p className="text-slate-500 dark:text-slate-400 text-sm max-w-xs leading-relaxed">
           No lead records match the current search and filter criteria.
         </p>
       </div>

@@ -25,9 +25,17 @@ import SizeTierBadge from '../common/SizeTierBadge';
  */
 const CompanyDrawer = ({ company, onClose }) => {
   const [copiedField, setCopiedField] = useState(null);
+  const [localCompany, setLocalCompany] = useState(null);
   const drawerRef = useRef(null);
   const closeButtonRef = useRef(null);
   const isOpen = Boolean(company);
+
+  // Sync local company details when active lead updates
+  useEffect(() => {
+    if (company) {
+      setLocalCompany(company);
+    }
+  }, [company]);
 
   // ── ESC to close ──────────────────────────────────────────────────────────
   useEffect(() => {
@@ -73,8 +81,8 @@ const CompanyDrawer = ({ company, onClose }) => {
   // ── Helpers ───────────────────────────────────────────────────────────────
   const v = (value) => (value && String(value).trim() !== '' ? value : null);
 
-  const formattedDate = company?.last_updated
-    ? new Date(company.last_updated).toLocaleDateString('en-US', {
+  const formattedDate = localCompany?.last_updated
+    ? new Date(localCompany.last_updated).toLocaleDateString('en-US', {
       month: 'long',
       day: 'numeric',
       year: 'numeric',
@@ -82,7 +90,7 @@ const CompanyDrawer = ({ company, onClose }) => {
     : null;
 
   // Company initials for avatar (up to 2 chars)
-  const initials = company?.company_name
+  const initials = localCompany?.company_name
     ?.split(' ')
     .slice(0, 2)
     .map((w) => w[0])
@@ -106,7 +114,7 @@ const CompanyDrawer = ({ company, onClose }) => {
         ref={drawerRef}
         role="dialog"
         aria-modal="true"
-        aria-label={company ? `${company.company_name} company profile` : 'Company profile'}
+        aria-label={localCompany ? `${localCompany.company_name} company profile` : 'Company profile'}
         className={`
           fixed right-0 z-50 flex flex-col
           top-16 h-[calc(100vh-4rem)]
@@ -118,7 +126,7 @@ const CompanyDrawer = ({ company, onClose }) => {
           ${isOpen ? 'translate-x-0' : 'translate-x-full'}
         `}
       >
-        {company && (
+        {localCompany && (
           <>
             {/* ── Header ──────────────────────────────────────────────────── */}
             <div className="flex items-start justify-between gap-3 px-5 pt-5 pb-4 border-b border-slate-100 dark:border-slate-800/80 shrink-0">
@@ -129,10 +137,10 @@ const CompanyDrawer = ({ company, onClose }) => {
                 </div>
                 <div className="min-w-0">
                   <h2 className="text-[15px] font-bold text-slate-900 dark:text-white leading-tight truncate pr-1">
-                    {company.company_name}
+                    {localCompany.company_name}
                   </h2>
                   <div className="mt-1.5">
-                    <IndustryBadge industry={company.industry} />
+                    <IndustryBadge industry={localCompany.industry} />
                   </div>
                 </div>
               </div>
@@ -152,32 +160,32 @@ const CompanyDrawer = ({ company, onClose }) => {
 
                 {/* Quick actions */}
                 <div className="flex flex-wrap gap-2">
-                  {v(company.domain) && (
+                  {v(localCompany.domain) && (
                     <a
-                      href={`https://${company.domain}`}
+                      href={`https://${localCompany.domain}`}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white text-xs font-semibold transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1"
-                      aria-label={`Open ${company.domain} in new tab`}
+                      aria-label={`Open ${localCompany.domain} in new tab`}
                     >
                       <Globe size={13} />
                       Open Website
                       <ExternalLink size={11} className="opacity-70" />
                     </a>
                   )}
-                  {v(company.domain) && (
+                  {v(localCompany.domain) && (
                     <CopyButton
                       label="Copy URL"
                       copied={copiedField === 'website'}
-                      onClick={() => handleCopy(company.domain, 'website')}
+                      onClick={() => handleCopy(localCompany.domain, 'website')}
                       aria-label="Copy website URL to clipboard"
                     />
                   )}
-                  {v(company.email_contact) && (
+                  {v(localCompany.email_contact) && (
                     <CopyButton
                       label="Copy Email"
                       copied={copiedField === 'email'}
-                      onClick={() => handleCopy(company.email_contact, 'email')}
+                      onClick={() => handleCopy(localCompany.email_contact, 'email')}
                       aria-label="Copy email address to clipboard"
                     />
                   )}
@@ -186,30 +194,30 @@ const CompanyDrawer = ({ company, onClose }) => {
                 {/* Company details section */}
                 <Section title="Company Details">
                   <DetailRow label="Size Tier" icon={<Building2 size={13} />}>
-                    <SizeTierBadge tier={company.size_tier} />
+                    <SizeTierBadge tier={localCompany.size_tier} />
                   </DetailRow>
                   <DetailRow label="Funding Stage" icon={<TrendingUp size={13} />}>
-                    {v(company.funding_stage) ? (
+                    {v(localCompany.funding_stage) ? (
                       <span className="inline-flex items-center px-2 py-0.5 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-semibold border border-slate-200/60 dark:border-slate-700/50">
-                        {company.funding_stage}
+                        {localCompany.funding_stage}
                       </span>
                     ) : (
                       <EmptyValue />
                     )}
                   </DetailRow>
                   <DetailRow label="City" icon={<MapPin size={13} />}>
-                    {v(company.city) ? (
+                    {v(localCompany.city) ? (
                       <span className="text-sm font-medium text-slate-800 dark:text-slate-200">
-                        {company.city}
+                        {localCompany.city}
                       </span>
                     ) : (
                       <EmptyValue />
                     )}
                   </DetailRow>
                   <DetailRow label="Headcount" icon={<Layers size={13} />}>
-                    {company.headcount && company.headcount > 0 ? (
+                    {localCompany.headcount && localCompany.headcount > 0 ? (
                       <span className="text-sm font-medium text-slate-800 dark:text-slate-200">
-                        {company.headcount.toLocaleString()} employees
+                        {localCompany.headcount.toLocaleString()} employees
                       </span>
                     ) : (
                       <EmptyValue />
@@ -229,26 +237,26 @@ const CompanyDrawer = ({ company, onClose }) => {
                 {/* Contact & online section */}
                 <Section title="Contact & Online">
                   <DetailRow label="Website" icon={<Globe size={13} />}>
-                    {v(company.domain) ? (
+                    {v(localCompany.domain) ? (
                       <a
-                        href={`https://${company.domain}`}
+                        href={`https://${localCompany.domain}`}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="text-blue-600 dark:text-blue-400 hover:underline text-xs font-semibold truncate max-w-[200px] inline-block"
                       >
-                        {company.domain}
+                        {localCompany.domain}
                       </a>
                     ) : (
                       <EmptyValue />
                     )}
                   </DetailRow>
                   <DetailRow label="Email" icon={<Mail size={13} />} isLast>
-                    {v(company.email_contact) ? (
+                    {v(localCompany.email_contact) ? (
                       <a
-                        href={`mailto:${company.email_contact}`}
+                        href={`mailto:${localCompany.email_contact}`}
                         className="text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 hover:underline text-xs font-medium truncate max-w-[210px] inline-block"
                       >
-                        {company.email_contact}
+                        {localCompany.email_contact}
                       </a>
                     ) : (
                       <EmptyValue />
@@ -262,7 +270,7 @@ const CompanyDrawer = ({ company, onClose }) => {
             {/* ── Footer ──────────────────────────────────────────────────── */}
             <div className="shrink-0 px-5 py-3.5 border-t border-slate-100 dark:border-slate-800/80 bg-slate-50/60 dark:bg-slate-900/40">
               <p className="text-[10px] font-semibold text-slate-400 dark:text-slate-600 text-center select-none tracking-wide">
-                ROW ID #{company.id} · BASEROW DATABASE
+                ROW ID #{localCompany.id} · BASEROW DATABASE
               </p>
             </div>
           </>

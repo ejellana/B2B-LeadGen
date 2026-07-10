@@ -299,16 +299,23 @@ const NewLeadsFeed = () => {
               ))}
             </div>
           ) : filteredLeads.length === 0 ? (
-            // ── Empty State ──
             <div className="flex flex-col items-center justify-center p-8 text-center bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 rounded-2xl py-16 gap-5 shadow-sm dark:shadow-none animate-slide-up">
               <div className="w-16 h-16 rounded-2xl bg-pink-500/10 border border-pink-500/20 flex items-center justify-center">
-                <Bell size={32} className="text-pink-650 dark:text-pink-400" />
+                <Bell size={32} className="text-pink-600 dark:text-pink-400" />
               </div>
               <div>
                 <p className="text-slate-900 dark:text-white font-bold text-lg mb-1">No new companies yet</p>
                 <p className="text-slate-500 dark:text-slate-400 text-sm max-w-sm mx-auto">
-                  No company records match the chosen industry sector filter: <span className="font-bold text-pink-600 dark:text-pink-400">"{selectedIndustry}"</span>. Try filtering another sector.
+                  No company records match the chosen industry sector filter: <span className="font-bold text-pink-600 dark:text-pink-400">"{selectedIndustry}"</span>.
                 </p>
+                {selectedIndustry !== 'All' && (
+                  <button
+                    onClick={() => setSelectedIndustry('All')}
+                    className="mt-4 inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-bold text-white bg-pink-600 hover:bg-pink-700 transition-colors focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-offset-1 dark:focus:ring-offset-slate-900 cursor-pointer"
+                  >
+                    Reset Filter to All
+                  </button>
+                )}
               </div>
             </div>
           ) : (

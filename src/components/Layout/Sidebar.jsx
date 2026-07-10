@@ -1,10 +1,8 @@
 import { NavLink, useLocation } from 'react-router-dom';
 import {
   LayoutDashboard,
-  Search,
   TableProperties,
   Map,
-  BarChart3,
   Bell,
   FileDown,
   ChevronLeft,
@@ -22,12 +20,6 @@ const NAV_ITEMS = [
     description: 'Analytics & insights',
   },
   {
-    to: '/search',
-    icon: Search,
-    label: 'Lead Search',
-    description: 'Discover new leads',
-  },
-  {
     to: '/leads',
     icon: TableProperties,
     label: 'Lead Table',
@@ -38,12 +30,6 @@ const NAV_ITEMS = [
     icon: Map,
     label: 'Company Map',
     description: 'Geographic view',
-  },
-  {
-    to: '/enrichment',
-    icon: BarChart3,
-    label: 'Enrichment',
-    description: 'Data completeness',
   },
   {
     to: '/feed',

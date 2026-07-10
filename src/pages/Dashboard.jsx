@@ -6,7 +6,6 @@ import {
   MapPin,
   Layers,
   Mail,
-  Search,
 } from 'lucide-react';
 import useAnalytics from '../hooks/useAnalytics';
 import StatCard from '../components/common/StatCard';
@@ -239,7 +238,7 @@ const Dashboard = () => {
             <h2 className="text-xl font-bold text-slate-900 dark:text-white">Analytics Dashboard</h2>
           </div>
           <p className="text-slate-500 dark:text-slate-400 text-sm ml-[52px]">
-            Comprehensive insights and geographic distributions — <span className="text-blue-600 dark:text-blue-400 font-medium font-semibold">Phase 4B.2</span>
+            Comprehensive insights and geographic distributions
           </p>
         </div>
       </div>
@@ -297,11 +296,11 @@ const Dashboard = () => {
             </p>
           </div>
           <Link
-            to="/search"
+            to="/leads"
             className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold bg-blue-600 hover:bg-blue-700 dark:bg-blue-600 dark:hover:bg-blue-500 text-white shadow-md dark:shadow-none hover:shadow-lg transition-all duration-150"
           >
-            <Search size={16} />
-            Start Discovering Leads
+            <Building2 size={16} />
+            View Leads Table
           </Link>
         </div>
       ) : (

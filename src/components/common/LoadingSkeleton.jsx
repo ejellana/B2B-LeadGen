@@ -6,7 +6,7 @@ import React from 'react';
  * Highly customizable with count and className props.
  */
 const LoadingSkeleton = ({ variant = 'text', count = 3, className = '' }) => {
-  const shimmerClass = 'bg-slate-200 dark:bg-slate-800 animate-pulse rounded';
+  const shimmerClass = 'bg-slate-200 dark:bg-slate-800/85 rounded shimmer-pulse';
 
   if (variant === 'card') {
     return (
@@ -44,7 +44,7 @@ const LoadingSkeleton = ({ variant = 'text', count = 3, className = '' }) => {
                 <div
                   key={j}
                   className={`h-4 flex-1 ${shimmerClass}`}
-                  style={{ width: `${60 + Math.random() * 30}%` }}
+                  style={{ width: `${60 + ((j * 17 + i * 29) % 31)}%` }}
                 />
               ))}
             </div>
@@ -95,7 +95,7 @@ const LoadingSkeleton = ({ variant = 'text', count = 3, className = '' }) => {
                   <div
                     key={i}
                     className={`flex-1 ${shimmerClass}`}
-                    style={{ height: `${30 + Math.random() * 60}%` }}
+                    style={{ height: `${30 + ((i * 23) % 61)}%` }}
                   />
                 ))}
               </div>
